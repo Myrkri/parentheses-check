@@ -14,19 +14,29 @@ public class Main {
         final Set<Character> searchableSymbols = Set.of('(', ')', '[', ']', '{', '}', '<', '>');
 
         for (char letter : inputChars) {
-            if (searchableSymbols.contains(letter)) {
+            if (checkParenthesesOrder(letter, parentheses)) {
+                parentheses.remove(parentheses.size() - 1);
+            } else if (searchableSymbols.contains(letter)) {
                 parentheses.add(letter);
             }
         }
-        if (parentheses.size() % 2 != 0) {
-            System.out.println("One of parentheses is missing.");
+        if (parentheses.size() != 0) {
+            System.out.println("Parentheses are missing or placed incorrectly");
         } else {
-            System.out.println("Looking good!");
+            System.out.println("Sentence looks good");
         }
     }
 
     private static String readFromInput() {
         final Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
+    }
+
+    private static boolean checkParenthesesOrder(final char letter, final List<Character> parentheses) {
+        if (parentheses.size() != 0) {
+            return letter - 2 == parentheses.get(parentheses.size() - 1) ||
+                    letter == ')' && parentheses.get(parentheses.size() - 1) == '(';
+        }
+        return false;
     }
 }
