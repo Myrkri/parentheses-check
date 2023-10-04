@@ -6,13 +6,13 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class Main {
+
+    private static final Set<Character> searchableSymbols = Set.of('(', ')', '[', ']', '{', '}', '<', '>');
+
     public static void main(String[] args) {
         final String input = readFromInput();
         final char[] inputChars = input.toCharArray();
         final List<Character> parentheses = new ArrayList<>();
-
-        final Set<Character> searchableSymbols = Set.of('(', ')', '[', ']', '{', '}', '<', '>');
-
         for (char letter : inputChars) {
             if (checkParenthesesOrder(letter, parentheses)) {
                 parentheses.remove(parentheses.size() - 1);
@@ -34,7 +34,9 @@ public class Main {
 
     private static boolean checkParenthesesOrder(final char letter, final List<Character> parentheses) {
         if (parentheses.size() != 0) {
-            return letter - 2 == parentheses.get(parentheses.size() - 1) ||
+            return letter == '>' && parentheses.get(parentheses.size() - 1) == '<' ||
+                    letter == ']' && parentheses.get(parentheses.size() - 1) == '[' ||
+                    letter == '}' && parentheses.get(parentheses.size() - 1) == '{' ||
                     letter == ')' && parentheses.get(parentheses.size() - 1) == '(';
         }
         return false;
